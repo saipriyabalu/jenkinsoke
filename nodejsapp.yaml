@@ -1,28 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  labels:
-    app: nodejsapp
-  name: nodejsapp
+  name: node-app
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: nodejsapp
-  strategy: {}
+      app: app
+  replicas: 3
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: nodejsapp
+        app: app
     spec:
       containers:
-      - image: iad.ocir.io/natdcshjumpstartprod/nodejsapp:latest
-        name: nodejsapp
-        resources: {}
+      - name: app
+        image: iad.ocir.io/natdcshjumpstartprod/jenkinsokerepo:v0.0
+        imagePullPolicy: Always
         ports:
-        - name: nodejsapp
+        - name: app
           containerPort: 3000
           protocol: TCP
       imagePullSecrets:
@@ -31,9 +26,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nodejsapp-lb
+  name: node-app-lb
   labels:
-    app: nodejsapp
+    app: app
   annotations:
     service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
     service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
@@ -43,5 +38,4 @@ spec:
   ports:
   - port: 3000
   selector:
-    app: nodejsapp
-
+    app: app
