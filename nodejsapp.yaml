@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nodejsapp
+  name: nodejsapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejsapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nodejsapp
+    spec:
+      containers:
+      - image: iad.ocir.io/natdcshjumpstartprod/nodejsapp:latest
+        name: nodejsapp
+        resources: {}
+        ports:
+        - name: nodejsapp
+          containerPort: 3000
+          protocol: TCP
+      imagePullSecrets:
+        - name: ocirsecret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejsapp-lb
+  labels:
+    app: nodejsapp
+  annotations:
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 3000
+  selector:
+    app: nodejsapp
+
