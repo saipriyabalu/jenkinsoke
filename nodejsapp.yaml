@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: saipriyabalu/jenkins
+        image: iad.ocir.io/natdcshjumpstartprod/node-express-getting-started:aanhpg3
         imagePullPolicy: Always
         ports:
         - name: app
