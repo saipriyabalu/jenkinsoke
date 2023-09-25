@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: iad.ocir.io/natdcshjumpstartprod/jenkinsokerepo:v1.0
+        image: iad.ocir.io/natdcshjumpstartprod/jenkinsokerepo:v1.2
         imagePullPolicy: Always
         ports:
         - name: app
